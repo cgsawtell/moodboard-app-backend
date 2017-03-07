@@ -9,7 +9,7 @@ const port = 8000
 
 // Sessions
 const convert = require('koa-convert') // necessary until koa-generic-session has been updated to support koa@2
-const session = require('koa-generic-session')
+const session = require('koa-session-minimal')
 app.keys = ['secret']
 
 require('./auth')
@@ -41,7 +41,7 @@ const privateApi = new Router({
   .use(require('./routes/private/upload-file'))
 
 module.exports = app
-  .use(convert(session()))
+  .use(session())
   .use(passport.initialize())
   .use(passport.session())
   .use(convert(
