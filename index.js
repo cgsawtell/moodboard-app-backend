@@ -1,6 +1,8 @@
 const Koa = require('koa')
 const Router = require('koa-router')
 const koaBetterBody = require('koa-better-body')
+const serve = require('koa-static')
+const path = require('path')
 
 const app = new Koa()
 const port = 8000
@@ -42,11 +44,17 @@ module.exports = app
   .use(convert(session()))
   .use(passport.initialize())
   .use(passport.session())
-  .use(convert(koaBetterBody()))
+  .use(convert(
+    koaBetterBody({
+      uploadDir: path.join(__dirname, 'uploads'),
+      keepExtensions: true
+    })
+  ))
   .use(publicApi.routes())
   .use(publicApi.allowedMethods())
   .use(privateApi.routes())
   .use(privateApi.allowedMethods())
+  .use(serve(path.join(__dirname, 'uploads')))
 
 app.listen(port)
 console.log(`listening on port ${port}`);
