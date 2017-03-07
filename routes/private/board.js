@@ -33,7 +33,6 @@ class Board{
     this.entities.push(newEntity)
   }
 }
-
 router.get('/board/:id', async (ctx, next) => {
   const _id = ctx.params.id
   const board =  await boards.findOne({_id})
@@ -47,17 +46,23 @@ router.get('/board/:id', async (ctx, next) => {
   }
 })
 
+router.put('/board/:id/addEntity', async (ctx, next) => {
+  const { id } = ctx.params
+  const { entity } = ctx.request.fields //should do some verification around what enity data I'm saving
+  let board = await boards.findOne({ _id: id })
+  board.entities.push(entity)
+  const updatedBoard = await boards.findOneAndUpdate({ _id: id }, board)
+  console.log(updatedBoard);
+  ctx.status = 200
+  ctx.body = updatedBoard
+})
+
 router.post('/board', async (ctx, next) => {
   const user = ctx.state.user
   const {name, description} = ctx.request.fields
   const board = new Board(user._id, name, description)
   const newBoard = await boards.insert(board)
   ctx.body = newBoard
-})
-
-router.patch('/board/:id/addEntity',async (ctx,next) => {
-  const {id} = ctx.params
-  const boardData = await boards.findOne({_id:id})
 })
 
 module.exports = router.middleware()
