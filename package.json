@@ -18,6 +18,7 @@
     "koa-generic-session": "^1.11.5",
     "koa-passport": "^3.0.0",
     "koa-router": "next",
+    "koa-static": "^3.0.0",
     "lodash": "^4.17.4",
     "monk": "^4.0.0",
     "passport-local": "^1.0.0",
