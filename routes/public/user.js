@@ -7,7 +7,7 @@ const router = new Router()
 const users = db.get('users')
 
 router.post('/user', async (ctx, next) => {
-  const {firstName, lastName, username, email, password} = ctx.request.body;
+  const { firstName, lastName, username, email, password } = ctx.request.fields;
   if(userDataIsValid(firstName, lastName, username, email, password)) {
     const hashedPassword = bcrypt.hashSync(password)
     const insertedUser = await users.insert({firstName, lastName, username, email, 'password':hashedPassword})

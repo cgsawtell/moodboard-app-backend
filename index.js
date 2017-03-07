@@ -1,6 +1,6 @@
 const Koa = require('koa')
 const Router = require('koa-router')
-const bodyParser = require('koa-bodyparser')
+const koaBetterBody = require('koa-better-body')
 
 const app = new Koa()
 const port = 8000
@@ -42,7 +42,7 @@ module.exports = app
   .use(convert(session()))
   .use(passport.initialize())
   .use(passport.session())
-  .use(bodyParser())
+  .use(convert(koaBetterBody()))
   .use(publicApi.routes())
   .use(publicApi.allowedMethods())
   .use(privateApi.routes())

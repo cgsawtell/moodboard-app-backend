@@ -33,7 +33,7 @@ router.get('/user/:id', async (ctx, next)=>{
 
 router.put('/user', async (ctx, next) => {
   const id = ctx.state.user._id
-  const {firstName, lastName, username, email, password} = ctx.request.body;
+  const {firstName, lastName, username, email, password} = ctx.request.fields;
   const userData = ctx.state.user
   const userDataToUpdate = Object.assign({}, userData, {firstName, lastName, username, email})
 

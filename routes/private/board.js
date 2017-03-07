@@ -49,7 +49,7 @@ router.get('/board/:id', async (ctx, next) => {
 
 router.post('/board', async (ctx, next) => {
   const user = ctx.state.user
-  const {name, description} = ctx.request.body
+  const {name, description} = ctx.request.fields
   const board = new Board(user._id, name, description)
   const newBoard = await boards.insert(board)
   ctx.body = newBoard

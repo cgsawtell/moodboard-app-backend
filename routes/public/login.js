@@ -3,6 +3,8 @@ const passport = require('koa-passport')
 const router = new Router()
 
 router.post('/login', (ctx, next) => {
+  // console.log(ctx.request.fields);
+  ctx.request.body =  ctx.request.fields
   return passport.authenticate('local', {}, (err, user, info, status) => {
     if(user){
       ctx.login(user)
