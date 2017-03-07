@@ -52,7 +52,6 @@ router.put('/board/:id/addEntity', async (ctx, next) => {
   let board = await boards.findOne({ _id: id })
   board.entities.push(entity)
   const updatedBoard = await boards.findOneAndUpdate({ _id: id }, board)
-  console.log(updatedBoard);
   ctx.status = 200
   ctx.body = updatedBoard
 })
