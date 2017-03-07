@@ -6,7 +6,9 @@ router.post('/login', (ctx, next) => {
   return passport.authenticate('local', {}, (err, user, info, status) => {
     if(user){
       ctx.login(user)
-      ctx.body = user
+      let returnData = user
+      delete returnData.password
+      ctx.body = returnData
     }
     else{
       ctx.status = 403

@@ -22,15 +22,15 @@ passport.deserializeUser(async function(id, done) {
 })
 
 const LocalStrategySettings = {
-  usernameField:"userName",
+  usernameField:"username",
   passwordField:"password"
 }
 
 const handleLocalLogin = (username, password, done) => {
-  findUser({userName:username})
+  findUser({username:username})
   .then(user => {
     const validPassword = bcrypt.compareSync(password, user.password)
-    if (username === user.userName && validPassword) {
+    if (username === user.username && validPassword) {
       done(null, user)
     } else {
       done(null, false)

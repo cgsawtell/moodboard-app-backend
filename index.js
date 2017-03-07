@@ -3,7 +3,7 @@ const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 
 const app = new Koa()
-const port = 3000
+const port = 8000
 
 // Sessions
 const convert = require('koa-convert') // necessary until koa-generic-session has been updated to support koa@2
@@ -35,12 +35,8 @@ const privateApi = new Router({
   .use(checkAuthStatus)
   .use(require('./routes/private/user'))
   .use(require('./routes/private/logout'))
-publicApi.get('/', 
-  (ctx, next) => {
-    ctx.body = 'Sup'
-  }
-)
-
+  .use(require('./routes/private/board'))
+  .use(require('./routes/private/upload-file'))
 
 module.exports = app
   .use(convert(session()))

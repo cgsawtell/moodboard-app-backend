@@ -5,18 +5,20 @@
   "author": "Caleb Sawtell",
   "license": "MIT",
   "scripts": {
-    "run": "node index.js",
+    "start": "node index.js",
     "test": "mocha"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "content-filter": "^1.1.0",
     "koa": "^2.0.1",
+    "koa-better-body": "^3.0.2",
     "koa-bodyparser": "^4.0.0",
     "koa-convert": "^1.2.0",
     "koa-generic-session": "^1.11.5",
     "koa-passport": "^3.0.0",
     "koa-router": "next",
+    "lodash": "^4.17.4",
     "monk": "^4.0.0",
     "passport-local": "^1.0.0",
     "validator": "^7.0.0"
