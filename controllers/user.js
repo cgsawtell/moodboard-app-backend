@@ -3,6 +3,7 @@ const monk = require('monk')
 const validator = require('validator')
 const db = require('../db')
 const users = db.get('users')
+const boards = db.get("boards")
 
 exports.add = async (ctx, next) => {
   const { firstName, lastName, username, email, password } = ctx.request.fields;
@@ -34,6 +35,45 @@ exports.checkAvailability = async (ctx, next) => {
     ctx.status = emailAvailable ? 204 : 200
     return
   }
+}
+
+exports.update = async (ctx, next) => {
+  const id = ctx.state.user._id
+  const { firstName, lastName, username, email, password } = ctx.request.fields;
+  const userData = ctx.state.user
+  const userDataToUpdate = Object.assign({}, userData, { firstName, lastName, username, email })
+
+  if (password) {
+    const hashedPassword = bcrypt.hashSync(password)
+    userDataToUpdate.password = hashedPassword;
+  }
+
+  const updatedUserData = await users.findOneAndUpdate({ _id: id }, userDataToUpdate)
+  delete updatedUserData.password
+  ctx.body = updatedUserData
+}
+
+exports.findFromId = async (ctx, next) => {
+  const id = ctx.params.id
+  if (id.length !== 24) {
+    ctx.throw(400, 'invalid request')
+    return
+  }
+  const userData = await users.findOne({ _id: id })
+  if (!userData) {
+    ctx.throw(404, "user not found")
+  }
+  delete userData.password
+  ctx.body = userData
+}
+
+exports.boards = async (ctx, next) => {
+  const user = ctx.state.user
+  const myBoards = await boards.find({ owner: user._id })
+  const payload = {
+    boards: [...myBoards]
+  }
+  ctx.body = payload
 }
 
 const userDataIsValid = (firstName, lastName, username, email, password) => {
