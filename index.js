@@ -1,14 +1,14 @@
 const Koa = require('koa')
 const Router = require('koa-router')
+const convert = require('koa-convert') // necessary until koa-better-body has been updated to support koa@2
 const koaBetterBody = require('koa-better-body')
 const serve = require('koa-static')
-const path = require('path')
+const config = require('./config')
 
 const app = new Koa()
 const port = 8000
 
 // Sessions
-const convert = require('koa-convert') // necessary until koa-generic-session has been updated to support koa@2
 const session = require('koa-session-minimal')
 app.keys = ['secret']
 
@@ -39,14 +39,15 @@ const privateApi = new Router({
   .use(require('./routes/private/logout'))
   .use(require('./routes/private/board'))
   .use(require('./routes/private/upload-file'))
+  .use(require('./routes/private/file'))
 
 module.exports = app
-  .use(session())
+  .use(session({cookie:{httpOnly:false}}))
   .use(passport.initialize())
   .use(passport.session())
   .use(convert(
     koaBetterBody({
-      uploadDir: path.join(__dirname, 'uploads'),
+      uploadDir: config.uploadDirectory,
       keepExtensions: true
     })
   ))
@@ -54,7 +55,7 @@ module.exports = app
   .use(publicApi.allowedMethods())
   .use(privateApi.routes())
   .use(privateApi.allowedMethods())
-  .use(serve(path.join(__dirname, 'uploads')))
+  .use(serve(config.uploadDirectory))
 
 app.listen(port)
 console.log(`listening on port ${port}`);

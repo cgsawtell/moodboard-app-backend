@@ -56,6 +56,22 @@ router.put('/board/:id/addEntity', async (ctx, next) => {
   ctx.body = updatedBoard
 })
 
+router.put('/board/:boardId/updateEntity/:entityId', async (ctx,next) =>{
+  const { boardId, entityId } = ctx.params
+  const { entity } = ctx.request.fields //should do some verification around what enity data I'm saving
+  let board = await boards.findOne({ _id: boardId })
+  const entityIndex = board.entities.findIndex( entity => (entityId === entity.id) )
+
+  if (entityIndex === -1){
+    ctx.status = 204
+    ctx.body = { "message": `no entity with id: ${entityId} found` }
+  }
+  board.entities[entityIndex] = entity
+  const updatedBoard = await boards.findOneAndUpdate({ _id: boardId }, board)
+  ctx.status = 200
+  ctx.body = updatedBoard
+})
+
 router.post('/board', async (ctx, next) => {
   const user = ctx.state.user
   const {name, description} = ctx.request.fields

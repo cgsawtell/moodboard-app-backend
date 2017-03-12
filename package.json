@@ -9,8 +9,11 @@
     "test": "mocha"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "bcryptjs": "^2.4.3",
     "content-filter": "^1.1.0",
+    "download": "^5.0.3",
+    "file-type": "^4.1.0",
     "koa": "^2.0.1",
     "koa-better-body": "^3.0.2",
     "koa-convert": "^1.2.0",
