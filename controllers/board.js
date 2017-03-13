@@ -38,7 +38,7 @@ exports.addEntity = async (ctx, next) => {
   ctx.body = updatedBoard
 }
 
-exports.updatedEntity = async(ctx, next) =>{
+exports.updateEntity = async (ctx, next) => {
   const { boardId, entityId } = ctx.params
   const { entity } = ctx.request.fields //should do some verification around what enity data I'm saving
   let board = await boards.findOne({ _id: boardId })

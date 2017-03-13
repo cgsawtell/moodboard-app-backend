@@ -38,7 +38,6 @@ const privateApi = new Router({
   .use(require('./routes/private/user'))
   .use(require('./routes/private/logout'))
   .use(require('./routes/private/board'))
-  .use(require('./routes/private/upload-file'))
   .use(require('./routes/private/file'))
 
 module.exports = app

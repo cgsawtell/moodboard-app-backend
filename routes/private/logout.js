@@ -1,9 +1,7 @@
 const Router = require('koa-router')
+const auth = require('../../controllers/auth')
 const router = new Router()
 
-router.post('/logout', (ctx, next) => {
-  ctx.logout()
-  ctx.body = {message:"success"}
-})
+router.post('/logout', auth.logout)
 
 module.exports = router.middleware()
