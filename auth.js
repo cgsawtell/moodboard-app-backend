@@ -26,17 +26,18 @@ const LocalStrategySettings = {
   passwordField:"password"
 }
 
-const handleLocalLogin = (username, password, done) => {
-  findUser({username:username})
-  .then(user => {
+const handleLocalLogin = async (username, password, done) => {
+  try {
+    const user = await findUser({username:username})
     const validPassword = bcrypt.compareSync(password, user.password)
     if (username === user.username && validPassword) {
       done(null, user)
     } else {
       done(null, false)
     }
-  })
-  .catch(err => done(err))
+  } catch (error) {
+    done(error)
+  }
 }
 
 passport.use(
