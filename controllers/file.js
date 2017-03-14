@@ -28,8 +28,12 @@ exports.download = async (ctx, next) => {
 
 exports.mimeType = async (ctx, next) => {
   const { url } = ctx.request.query
-  const mimeType = await mimeTypeFromURL(url)
-  ctx.body = { mimeType };
+  try {
+    const mimeType = await mimeTypeFromURL(url)
+    ctx.body = { mimeType };
+  } catch (error) {
+    console.error(error)    
+  }
 }
 
 const mimeTypeFromURL = (url) => {

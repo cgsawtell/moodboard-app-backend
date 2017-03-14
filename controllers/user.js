@@ -69,11 +69,15 @@ exports.findFromId = async (ctx, next) => {
 
 exports.boards = async (ctx, next) => {
   const user = ctx.state.user
-  const myBoards = await boards.find({ owner: user._id })
-  const payload = {
-    boards: [...myBoards]
+  try {
+    const myBoards = await boards.find({ owner: user._id })
+    const payload = {
+      boards: [...myBoards]
+    }
+    ctx.body = payload
+  } catch (error) {
+    console.error(error)
   }
-  ctx.body = payload
 }
 
 const userDataIsValid = (firstName, lastName, username, email, password) => {
