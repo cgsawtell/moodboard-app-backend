@@ -29,11 +29,11 @@ exports.findFromId = async (ctx, next) => {
 }
 
 exports.addEntity = async (ctx, next) => {
-  const { id } = ctx.params
+  const { id: _id } = ctx.params
   const { entity } = ctx.request.fields //should do some verification around what enity data I'm saving
-  let board = await boards.findOne({ _id: id })
+  let board = await boards.findOne({ _id })
   board.entities.push(entity)
-  const updatedBoard = await boards.findOneAndUpdate({ _id: id }, board)
+  const updatedBoard = await boards.findOneAndUpdate({ _id }, board)
   ctx.status = 200
   ctx.body = updatedBoard
 }
