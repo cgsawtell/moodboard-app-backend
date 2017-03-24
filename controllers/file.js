@@ -53,8 +53,9 @@ const mimeTypeFromURL = (url) => {
     }
     protocol.get(url, res => {
       res.on('data', chunk => {
+        const fileTypeDetected = fileType(chunk)
+        resolve(fileTypeDetected ? fileTypeDetected.mime : null);
         res.destroy();
-        resolve(fileType(chunk).mime);
       });
     });
   }
